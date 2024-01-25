@@ -11,8 +11,8 @@ class ThreadController extends Controller
     public function index() {
         $threads = DB::select('select threads.thread, threads.created_at, comments.comment, comment_replies.replies from threads, comments, comment_replies where threads.id = comments.thread_id and threads.id = comment_replies.thread_id and comments.id = comment_replies.comment_id');
         
-        return View('Index', [
-            'thread' => $threads->fillter(request(['search']))->get()
+        return View('index', [
+            'thread' => $threads->fillter(request(['search']))->paginate(1)
         ]);
     }
 
