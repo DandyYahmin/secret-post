@@ -13,7 +13,7 @@ class CommentController extends Controller
         ]);
 
         Comment::create([
-            'comment' => $request->thread,
+            'comment' => $request->comment,
             'thread_id' => $thread_id
         ]);
 
