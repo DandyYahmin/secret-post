@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    protected $with = ['comment_reply'];
 
     public function thread() {
         return $this->belongsTo(thread::class);

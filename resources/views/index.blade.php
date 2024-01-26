@@ -7,29 +7,25 @@
 </head>
 <body>
 <table>
-    <form action="/post" method="post" enctype="multipart/form-data">
+    <form action="/1/2/reply" method="post" enctype="multipart/form-data">
         @csrf
-        <input type="text" name="thread" id="">
+        <input type="text" name="replies" id="">
         <button type="submit">submit</button>
     </form>
-    <thead>
-        <tr>
-            <th>threads</th>
-            <th>timestamps</th>
-            <th>comments</th>
-            <th>replys</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($thread as $threads)
-        <td>{{$threads->thread}}</td>
-        <td>{{$threads->created_at}}</td>
-        <td>{{$threads->comment}}</td>
-        <td>{{$threads->comment_reply}}</td>
-        @endforeach
-    </tbody>
     <h3>data:</h3>
-    <p>{{$thread}}</p>
+    <p>{{$threads}}</p>
+    <hr>
+    @foreach ($threads as $thread)
+    <p>isi thread: {{$thread->thread}}</p>
+    <p>tanggal dibuat thread: {{$thread->created_at}}</p>
+    <p>comment:</p>
+    @foreach ($thread->comment as $comment)
+    <p>{{$comment->comment}}</p>
+    @foreach ($comment->comment_reply as $reply)
+    <p>{{$reply->replies}}</p>
+    @endforeach
+    @endforeach
+    @endforeach
 </table>
 </body>
 </html>
