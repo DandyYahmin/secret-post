@@ -8,11 +8,11 @@ use App\Models\Thread;
 
 class ThreadController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         $threads = DB::select('select threads.thread, threads.created_at, comments.comment, comment_replies.replies from threads, comments, comment_replies where threads.id = comments.thread_id and threads.id = comment_replies.thread_id and comments.id = comment_replies.comment_id');
         
         return View('index', [
-            'threads' => Thread::all()
+            'threads' => Thread::where('id','>',0)->fillter(request(['search']))->get()
         ]);
     }
 
