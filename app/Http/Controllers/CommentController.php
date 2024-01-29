@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Thread;
 
 class CommentController extends Controller
 {
@@ -17,6 +18,7 @@ class CommentController extends Controller
             'thread_id' => $thread_id
         ]);
 
-        return Redirect('/?comment=success');
+        $path = Thread::where('id',$thread_id)->pluck('created_at');
+        return Redirect('/#'.$path[0]);
     }
 }

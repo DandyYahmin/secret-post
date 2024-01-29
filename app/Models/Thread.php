@@ -9,14 +9,10 @@ class Thread extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $with = ['comment', 'comment_reply'];
+    protected $with = ['comment'];
 
     public function comment() {
         return $this->hasMany(Comment::class);
-    }
-
-    public function comment_reply() {
-        return $this->hasMany(Comment_reply::class);
     }
 
     public function scopeFillter($query, array $fillters) {
