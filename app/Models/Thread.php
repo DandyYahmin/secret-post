@@ -17,7 +17,7 @@ class Thread extends Model
 
     public function scopeFillter($query, array $fillters) {
         $query->when($fillters['search'] ?? false, function ($query, $search) {
-            return $query->where('thread', 'like', '%'.$search.'%');
+            return $query->where('thread', 'like', '%'.$search.'%')->orWhere('created_at','like','%'.$search.'%');
         });
     }
 }
