@@ -9,6 +9,6 @@
         </div>
         @endforeach
     @else
-        <p class='text-center mt-10 text-red-600 text-2xl underline underline-offset-2'>No threads❓ try other keyword❗</p>
+        <p class='text-center mt-10 text-red-600 text-2xl underline underline-offset-2'>No threads found❓</p>
     @endif
 </div>
