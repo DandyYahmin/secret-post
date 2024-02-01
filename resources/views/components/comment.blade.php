@@ -12,6 +12,15 @@
                 <p>Comments:</p>
                 @foreach ($thread->comment as $comment)
                     <p class='mt-1'>💬{{$comment->comment}}</p>
+                    <div class='ml-5 mb-1'>
+                        @if ($comment->comment_reply->count())
+                            <button style='display: block;' id='show-reply{{$comment->id}}' class='text-gray-400' onclick="showReply({{$comment->id}})">🔼show reply</button>
+                            <button style='display: none;' id='hide-reply{{$comment->id}}' class='text-gray-400' onclick="hideReply({{$comment->id}})">🔽hide reply</button>
+                            @foreach ($comment->comment_reply as $reply)
+                                <p style='display: none;' class='mt-1' id='reply{{$comment->id}}'>💬{{$reply->replies}}</p>
+                            @endforeach
+                        @endif
+                    </div>
                 @endforeach
             @else
                 <br><p class='text-center'>No comments yet😣</p>
@@ -26,3 +35,23 @@
     </div>
 </div>
 @endforeach
+<script>
+    function showReply(commentId) {
+        var reply = document.getElementById('reply'+commentId)
+        reply.style.display = 'block'
+        var show = document.getElementById('show-reply'+commentId)
+        show.style.display = 'none'
+        var hide = document.getElementById('hide-reply'+commentId)
+        hide.style.display = 'block'
+        return false
+    }
+    function hideReply(commentId) {
+        var reply = document.getElementById('reply'+commentId)
+        reply.style.display = 'none'
+        var show = document.getElementById('show-reply'+commentId)
+        show.style.display = 'block'
+        var hide = document.getElementById('hide-reply'+commentId)
+        hide.style.display = 'none'
+        return false
+    }
+</script>
