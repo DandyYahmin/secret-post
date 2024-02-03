@@ -7,17 +7,20 @@
         </div>
         <p class='mt-1'>{{$thread->thread}}</p>
         <br><hr>
-        <div class='h-56 overflow-y-auto break-words'>
+        <div class='h-56 overflow-x-auto whitespace-nowrap'>
             @if ($thread->comment->count())
                 <p>Comments:</p>
                 @foreach ($thread->comment as $comment)
-                    <p class='mt-1'>💬{{$comment->comment}}</p>
+                    <div class='flex gap-2 mt-1'>
+                        <p class=''>💬{{$comment->comment}}</p>
+                        <button class='text-gray-400' onclick='replyComment({{$thread->id}},{{$comment->id}},"{{$comment->comment}}")'>↪reply comment</button>
+                    </div>
                     <div class='ml-5 mb-1'>
                         @if ($comment->comment_reply->count())
                             <button style='display: block;' id='show-reply{{$comment->id}}' class='text-gray-400' onclick="showReply({{$comment->id}})">🔼show reply</button>
                             <button style='display: none;' id='hide-reply{{$comment->id}}' class='text-gray-400' onclick="hideReply({{$comment->id}})">🔽hide reply</button>
                             @foreach ($comment->comment_reply as $reply)
-                                <p style='display: none;' class='mt-1' id='reply{{$comment->id}}'>💬{{$reply->replies}}</p>
+                                <p style='display: none;' class='mt-1 reply{{$comment->id}}'>💬{{$reply->replies}}</p>
                             @endforeach
                         @endif
                     </div>
@@ -26,19 +29,44 @@
                 <br><p class='text-center'>No comments yet😣</p>
             @endif
         </div><hr>
+        <div class='flex justify-between mt-2 overflow-x-auto whitespace-nowrap'>
+            <p class='text-gray-700 w-[95%] overflow-hidden' id='reply-tag{{$thread->id}}' style='display: none;'></p>
+            <button id='cancel-reply{{$thread->id}}' style='display: none;' onclick='cancelReply({{$thread->id}})'>✖</button>
+        </div>
         <div class=''>
-            <form action="/{{$thread->id}}/comment" method="post" class='p-1 sm:p-0'>
+            <form action="/{{$thread->id}}/comment" method="post" class='p-1 sm:p-0' id="comment-form{{$thread->id}}">
                 @csrf
-                <input name="comment" type="text" placeholder="comment your thoughts🧠💭" class='outline-none w-full h-10'>
+                <input name="comment" type="text" placeholder="comment your thoughts🧠💭" class='outline-none w-full'>
             </form>
         </div>
     </div>
 </div>
 @endforeach
 <script>
+    function cancelReply(threadId) {
+        var replyTag = document.getElementById('reply-tag'+threadId)
+        replyTag.style.display = 'none'
+        var cancelReply = document.getElementById('cancel-reply'+threadId)
+        cancelReply.style.display = 'none'
+        var replyForm = document.getElementById('comment-form'+threadId)
+        replyForm.action = `/${threadId}/comment`
+        return false;
+    }
+    function replyComment(threadId, commentId, commentText) {
+        var replyTag = document.getElementById('reply-tag'+threadId)
+        replyTag.innerHTML = 'reply: ' + commentText
+        replyTag.style.display = 'block'
+        var cancelReply = document.getElementById('cancel-reply'+threadId)
+        cancelReply.style.display = 'block'
+        var replyForm = document.getElementById('comment-form'+threadId)
+        replyForm.action = `/${threadId}/${commentId}/reply`
+        return false;
+    }
     function showReply(commentId) {
-        var reply = document.getElementById('reply'+commentId)
-        reply.style.display = 'block'
+        var reply = document.getElementsByClassName('reply'+commentId)
+        for (var i = 0; i < reply.length; i++) {
+            reply[i].style.display = 'block'
+        }
         var show = document.getElementById('show-reply'+commentId)
         show.style.display = 'none'
         var hide = document.getElementById('hide-reply'+commentId)
@@ -46,8 +74,10 @@
         return false
     }
     function hideReply(commentId) {
-        var reply = document.getElementById('reply'+commentId)
-        reply.style.display = 'none'
+        var reply = document.getElementsByClassName('reply'+commentId)
+        for (var i = 0; i < reply.length; i++) {
+            reply[i].style.display = 'none'
+        }
         var show = document.getElementById('show-reply'+commentId)
         show.style.display = 'block'
         var hide = document.getElementById('hide-reply'+commentId)
