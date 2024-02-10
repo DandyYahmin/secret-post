@@ -1,0 +1,6 @@
+POST http://localhost:8000/api/post
+Content-Type: application/json
+
+{
+    "thread": "this is first thread from api gate"
+}
