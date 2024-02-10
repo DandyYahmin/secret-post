@@ -36,6 +36,9 @@
         <div class=''>
             <form action="/{{$thread->id}}/comment" method="post" class='p-1 sm:p-0' id="comment-form{{$thread->id}}">
                 @csrf
+                @error('comment')
+                    <p class='text-red-700'>At least write 1 character lmao🤓</p>
+                @enderror
                 <input name="comment" type="text" placeholder="comment your thoughts🧠💭" class='outline-none w-full'>
             </form>
         </div>
