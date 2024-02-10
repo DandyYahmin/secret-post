@@ -7,13 +7,14 @@
     <title>Secret Post</title>
 </head>
 <body class='font-mono'>
-    <div class='flex min-h-screen flex-col bg-white sm:items-center'>
     @include('components.navbar')
+    <div class='flex min-h-screen flex-col bg-white sm:items-center'>
         <div class='container mx-auto px-12 py-4 lg:px-80'>    
         @yield('container')
         @include('components.comment')
         </div>
-    @include('components.post')
+        @include('components.post')
     </div>
+    @include('components.footer')
 </body>
 </html>
