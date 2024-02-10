@@ -10,6 +10,9 @@
         <br>
         <form action="/post" method="post">
             @csrf
+            @error('thread')
+                <p class='text-red-700'>At least write 1 character lmao🤓</p>
+            @enderror
             <textarea name="thread" cols="30" rows="10" class='border border-current w-full resize-none' placeholder='write here!!!'></textarea>
             <button type="submit" class='border border-current p-3 bg-lime-600 rounded-3xl text-white'>Post anonymously👀</button>
         </form>
