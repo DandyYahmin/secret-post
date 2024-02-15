@@ -1,4 +1,4 @@
-POST http://localhost:8000/api/post
+POST https://secret-post.vercel.app/api/api/post
 Content-Type: application/json
 
 {
